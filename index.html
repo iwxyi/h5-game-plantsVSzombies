@@ -1,102 +1,171 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="UTF-8">
-  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
-  <title>植物大战僵尸v1.2</title>
-  <link rel="stylesheet" href="css/common.css">
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <title>植物大战僵尸v1.2</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="../js/jquery.js"></script>
 </head>
+
 <body>
-<div id="js-startGame-btn" class="startGame-btn">点击开始游戏</div>
-<div id="js-intro-game" class="intro-game">
-  欢迎来到 David Yang 的 JavaScript 版植物大战僵尸<br>
-  个人博客：<a href="http://www.yangyunhe.me" target="_blank">http://www.yangyunhe.me</a><br>
-  程序开发的目的是为了学习，所有版权归 David Yang 所有
-</div>
-<div id="js-log-btn" class="check-log-btn change-log-btn">点击查看更新日志</div>
-<!-- 游戏主场景 -->
-<div class="content-box">
-  <canvas id="canvas" width="1400" height="600"></canvas>
-</div>
-<!-- 更新日志 -->
-<div class="update-log" style="display: none;">
-  <div class="title">更新日志</div>
-  <dl>
-    <dt>2017.11.27</dt>
-    <dd>添加植物-向日葵，可自动生成阳光</dd>
-    <dt>2017.11.28</dt>
-    <dd>添加植物-坚果墙，修复添加新植物使同行处于攻击状态的僵尸攻击判定失效bug</dd>
-    <dd>添加植物-樱桃炸弹</dd>
-    <dt>2017.11.29</dt>
-    <dd>添加小铲车，可一次性清除整行僵尸，调整植物冷却时间</dd>
-    <dt>2018.2.6</dt>
-    <dd>添加植物-食人花</dd>
-  </dl>
-  <input class="close-log-btn change-log-btn" type="button" value="关闭"></input>
-</div>
-<!-- 卡片列表 -->
-<ul class="cards-list">
-  <li class="cards-item" data-section="sunflower">
-    <div class="card-intro">
-      <span>向日葵</span>
-      <span>冷却时间：5秒</span>
-      <span>向日葵是你收集额外阳光必不可少的植物。为什么不多种一些呢？</span>
+    <div id="js-startGame-btn" class="startGame-btn">点击开始游戏</div>
+    <div id="js-intro-game" class="intro-game">
+        欢迎来到神奇弹幕版植物大战僵尸<br>
+        弹幕命令：“开始游戏”、“种[植物序号] [行] [列]”<br>
+        如“种1 3 1”就是在第3行第1列种植向日葵
     </div>
-  </li>
-  <li class="cards-item" data-section="wallnut">
-    <div class="card-intro">
-      <span>坚果墙</span>
-      <span>冷却时间：12秒</span>
-      <span>墙果具备坚硬的外壳，你可以使用他们来保护其他植物</span>
+    <div id="js-log-btn" class="check-log-btn change-log-btn">点击查看更新日志</div>
+    <!-- 游戏主场景 -->
+    <div class="content-box">
+        <canvas id="canvas" width="1400" height="600"></canvas>
     </div>
-  </li>
-  <li class="cards-item" data-section="peashooter">
-    <div class="card-intro">
-      <span>豌豆射手</span>
-      <span>冷却时间：7秒</span>
-      <span>向敌人射出豌豆</span>
+    <!-- 更新日志 -->
+    <div class="update-log" style="display: none;">
+        <div class="title">更新日志</div>
+        <dl>
+            <dt>2017.11.27</dt>
+            <dd>添加植物-向日葵，可自动生成阳光</dd>
+            <dt>2017.11.28</dt>
+            <dd>添加植物-坚果墙，修复添加新植物使同行处于攻击状态的僵尸攻击判定失效bug</dd>
+            <dd>添加植物-樱桃炸弹</dd>
+            <dt>2017.11.29</dt>
+            <dd>添加小铲车，可一次性清除整行僵尸，调整植物冷却时间</dd>
+            <dt>2018.2.6</dt>
+            <dd>添加植物-食人花</dd>
+        </dl>
+        <input class="close-log-btn change-log-btn" type="button" value="关闭"></input>
     </div>
-  </li>
-  <li class="cards-item" data-section="repeater">
-    <div class="card-intro">
-      <span>双发豌豆射手</span>
-      <span>冷却时间：10秒</span>
-      <span>向敌人连续射出两发豌豆</span>
+    <!-- 卡片列表 -->
+    <ul class="cards-list">
+        <li class="cards-item" data-section="sunflower">
+            <div class="card-intro">
+                <span>向日葵</span>
+                <span>冷却时间：5秒</span>
+                <span>向日葵是你收集额外阳光必不可少的植物。为什么不多种一些呢？</span>
+            </div>
+        </li>
+        <li class="cards-item" data-section="wallnut">
+            <div class="card-intro">
+                <span>坚果墙</span>
+                <span>冷却时间：12秒</span>
+                <span>墙果具备坚硬的外壳，你可以使用他们来保护其他植物</span>
+            </div>
+        </li>
+        <li class="cards-item" data-section="peashooter">
+            <div class="card-intro">
+                <span>豌豆射手</span>
+                <span>冷却时间：7秒</span>
+                <span>向敌人射出豌豆</span>
+            </div>
+        </li>
+        <li class="cards-item" data-section="repeater">
+            <div class="card-intro">
+                <span>双发豌豆射手</span>
+                <span>冷却时间：10秒</span>
+                <span>向敌人连续射出两发豌豆</span>
+            </div>
+        </li>
+        <li class="cards-item" data-section="gatlingpea">
+            <div class="card-intro">
+                <span>加特林射手</span>
+                <span>冷却时间：15秒</span>
+                <span>向敌人快速射出豌豆</span>
+            </div>
+        </li>
+        <li class="cards-item" data-section="chomper">
+            <div class="card-intro">
+                <span>食人花</span>
+                <span>冷却时间：15秒</span>
+                <span>食人花能吞下所有自己可以吞下的僵尸</span>
+            </div>
+        </li>
+        <li class="cards-item" data-section="cherrybomb">
+            <div class="card-intro">
+                <span>樱桃炸弹</span>
+                <span>冷却时间：25秒</span>
+                <span>樱桃炸弹能够炸飞一片区域（以鼠标点击位置为中心9格内）的所有僵尸。</span>
+            </div>
+        </li>
+    </ul>
+    <!-- 游戏控制按键 -->
+    <div class="menu-box">
+        <div id="pauseGame" class="contro-btn">暂停</div>
+        <div id="restartGame" class="contro-btn">开始游戏</div>
     </div>
-  </li>
-  <li class="cards-item" data-section="gatlingpea">
-    <div class="card-intro">
-      <span>加特林射手</span>
-      <span>冷却时间：15秒</span>
-      <span>向敌人快速射出豌豆</span>
-    </div>
-  </li>
-  <li class="cards-item" data-section="chomper">
-    <div class="card-intro">
-      <span>食人花</span>
-      <span>冷却时间：15秒</span>
-      <span>食人花能吞下所有自己可以吞下的僵尸</span>
-    </div>
-  </li>
-  <li class="cards-item" data-section="cherrybomb">
-    <div class="card-intro">
-      <span>樱桃炸弹</span>
-      <span>冷却时间：25秒</span>
-      <span>樱桃炸弹能够炸飞一片区域（以鼠标点击位置为中心9格内）的所有僵尸。</span>
-    </div>
-  </li>
-</ul>
-<!-- 游戏控制按键 -->
-<div class="menu-box">
-  <div id="pauseGame" class="contro-btn">暂停</div>
-  <div id="restartGame" class="contro-btn">开始游戏</div>
-</div>
-<!-- 系统自动生成阳光 -->
-<img class="sun-img systemSun" src="images/sun.gif" alt="">
-<script src="js/common.js"></script>
-<script src="js/scene.js"></script>
-<script src="js/game.js"></script>
-<script src="js/main.js"></script>
+    <!-- 系统自动生成阳光 -->
+    <img class="sun-img systemSun" src="images/sun.gif" alt="">
+    <script src="js/common.js"></script>
+    <script src="js/scene.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/main.js"></script>
+
+    <!-- 弹幕控制 -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var ws = new WebSocket("ws://__DOMAIN__:__WS_PORT__");
+            var current = 0, total = 0;
+            ws.onopen = function () {
+                ws.send('{"cmd":"cmds", "data":["PVSZ"]}');
+            };
+            ws.onmessage = function (e) {
+                var json = JSON.parse(e.data);
+                console.log(json);
+                var cmd = json['cmd'];
+                switch (cmd) {
+                    case 'START':
+                        console.log("开始游戏");
+                        $("#js-startGame-btn").click();
+                        break;
+                    case 'PAUSE':
+                        console.log("暂停游戏");
+                        $("#pauseGame").click();
+                        break;
+                    case 'RESTART':
+                        console.log("继续游戏");
+                        $("#restartGame").click();
+                        break;
+                    case 'REBOOT':
+                        console.log("重新游戏");
+                        window.location.reload();
+                        break;
+                    case 'ACTION':
+                        var action = json['action'];
+                        var name = json['name'];
+                        var id = json['id']; // 从1开始的
+                        var row = json['row']; // 也是从左上角的(1,1)开始
+                        var col = json['col'];
+                        console.log(action, id, row, col);
+                        if (action == '种') {
+                            // 获取植物
+                            if (name != null) {
+                                // 从name获取id
+                            }
+                            if (id < 1 || id > $('.cards-item').children().length) {
+                                console.log("ID出错", id, '不在', $('.cards-item').children().length, '之内');
+                                return;
+                            }
+
+                            // 选择植物
+                            $('.cards-item').children().eq(id - 1).click();
+
+                            // 种植物
+                            window._main.game.mouseRow = row;
+                            window._main.game.mouseCol = col;
+                            window._main.game.canDrawMousePlant = true;
+                            window._main.game.tryMouseRowCol(row, col);
+                            window._main.game.tryPutPlants();
+                        }
+                        else if (action == '铲') {
+                            // 铲植物
+                        }
+                        break;
+                }
+            };
+        });
+    </script>
 </body>
+
 </html>
