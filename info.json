@@ -1,0 +1,41 @@
+{
+	"list": [
+		{
+			"name": "植物大战僵尸弹幕版",
+			"url": "index.html",
+            "desc": "使用弹幕控制的小游戏，并不好用，只是提供一个想法",
+			"code": [
+				{
+					"anchor_key": "神奇弹幕:AutoReply",
+					"enabled": true,
+					"key": "开始游戏",
+					"reply": ">sendToSockets(PVSZ, {\"cmd\": \"START\"})"
+				},
+				{
+					"anchor_key": "神奇弹幕:AutoReply",
+					"enabled": true,
+					"key": "暂停游戏",
+					"reply": ">sendToSockets(PVSZ, {\"cmd\": \"PAUSE\"})"
+				},
+				{
+					"anchor_key": "神奇弹幕:AutoReply",
+					"enabled": true,
+					"key": "继续游戏",
+					"reply": ">sendToSockets(PVSZ, {\"cmd\": \"RESTART\"})"
+				},
+				{
+					"anchor_key": "神奇弹幕:AutoReply",
+					"enabled": true,
+					"key": "重新游戏",
+					"reply": ">sendToSockets(PVSZ, {\"cmd\": \"REBOOT\"})"
+				},
+				{
+					"anchor_key": "神奇弹幕:AutoReply",
+					"enabled": true,
+					"key": "^(种)\\s*(\\d+) (\\d+) (\\d+)$",
+					"reply": ">sendToSockets(PVSZ, {\"cmd\": \"ACTION\", \"action\": \"%$1%\", \"id\": %$2%, \"row\": %$3%, \"col\": %$4%})"
+				}
+			]
+		}
+	]
+}
